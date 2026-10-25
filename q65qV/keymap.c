@@ -377,3 +377,34 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
+
+/*
+ * Custom Tap Flow behavior:
+ *
+ * Disable Tap Flow for Space/Symbols.
+ * Keep the normal Tap Flow behavior for all other keys.
+ */
+
+uint16_t get_flow_tap_term(
+    uint16_t keycode,
+    keyrecord_t *record,
+    uint16_t prev_keycode
+) {
+    // IMPORTANT:
+    // Replace LT(2, KC_SPC) with your actual
+    // Space/Symbols keycode from the layout.
+
+    if (keycode == LT(3, KC_SPACE) || keycode == LT(4, KC_SPACE)) {
+        return 0;
+    }
+
+    // Preserve the normal QMK Tap Flow behavior.
+    if (is_flow_tap_key(keycode) &&
+        is_flow_tap_key(prev_keycode)) {
+        return FLOW_TAP_TERM;
+    }
+
+    return 0;
+}
+
+
